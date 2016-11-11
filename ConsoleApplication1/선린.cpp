@@ -1,523 +1,194 @@
-#include "¼±¸°.h"
-#include <stdio.h>
-#include <stdlib.h>
-typedef struct add{
-	char barcode[20];
-	char name[20];
+ï»¿#include<stdio.h>
+#include<Windows.h>
+#include<stdlib.h>
+#include"ì„ ë¦°.h"
+//ì´ë§¤ì¶œ ê¸°ëŠ¥ ì‚½ì…
+typedef struct LinkedList {
+	char name[100];
 	int price;
-	struct node * link;
-
+	int num;
+	int barcode;
+	struct LinkedList *NEXT;
 }node;
 
-node * get_node() {
-	node * tmp;
-	tmp = (node*)malloc(sizeof(node));
-	tmp->link = 0;
-	return tmp;
-}
 struct database db[60] = {
-	{ "BBQ È²±İ ¿Ã¸®ºêÄ¡Å²", 16000, 1234 },
-	{ "BBQ È²±İ ¿Ã¸®ºêÄ¡Å² (¹İ¹İ)",17000, 12345 },
-	{ "BBQ È²±İ ¿Ã¸®ºêÄ¡Å² (´ß´Ù¸®)", 17500, 12243 },
-	{ "BBQ È²±İ ¿Ã¸®ºêÄ¡Å² (¸Å¿î ´ß´Ù¸®)",19000,12342 },
-	{ "BBQ ½ÃÅ©¸´ ¾ç³äÄ¡Å²", 17000, 21314 },
-	{ "BBQ ½ÃÅ©¸´ ¾ç³äÄ¡Å² (¸Å¿î¸À)", 17500, 15324 },
-	{ "BBQ È²±İ ¿Ã¸®ºê ¼Ó¾È½É", 17000, 74452 },
-	{ "BBQ ¼ø»ì Å©·¡Ä¿",18000, 53142 },
-	{ "BBQ ÆÄ´ßÀÇ ²Ş",19000, 24198 },
-	{ "BBQ Ä¡Å² °­Á¤", 18000, 19422 },
-	{ "BBQ ºü¸®Ä¡Å² (À®)", 19000, 93872 },
-	{ "BBQ ·¹µå °¥¸¯½º (ÇÑ¸¶¸®)", 19900, 92803 },
-	{ "BBQ ·¹µå °¥¸¯½º (ÇÑ¸¶¸® À®)", 19900, 3241 },
-	{ "BBQ È²±İ ¿Ã¸®ºê (¹İ¹İ ´ß´Ù¸®}", 18500, 91842 },
-	{ "BBQ ½º¸ğÅ© Ä¡Å²",17000, 4928 },
-	{ "¼ø»ì ¹Ù»èÄ­ Ä¡Å²", 17000, 49281 },
-	{ "¹Ù»èÄ­ Ä¡Å² (¹İ¹İ)", 17000, 92732 },
-	{ "BBQ ¸¶¶ó ÇÖÄ¡Å²", 18900, 1235 },
-	{ "BBQ ¸¶¶ó ÇÖÄ¡Å² (À®)",18900, 1236 },
-	{ "BBQ ¸¶¶ó ÇÖÄ¡Å² (¼ø»ì)", 20900, 1237 },
-	{ "BBQ Çã´Ï °¥¸¯½º", 18900, 1238 },
-	{ "BBQ Çã´Ï °¥¸¯½º (À®)",18900, 1239 },
-	{ "BBQ Ä¡Áñ¸µ", 19000, 1240 },
-	{ "BBQ Ä¡Áñ¸µ (¼ø»ì)", 19900, 1241 },
-	{ "BBQ ¼ÒÀÌ°¥¸¯½º(ÇÑ¸¶¸®)", 18900, 78912 },
-	{ "BBQ ¼ÒÀÌ°¥¸¯½º(ÇÑ¸¶¸®)(À®)", 18900, 78912 },
-	{ "BBQ ¿¾³¯Åë´ß", 14900, 78912 },
-	{ "BBQ ¹Ù»èÄ­ Ä¡Å²", 16000, 78912 },
-	{ "BBQ ¹Ù»èÄ­ Ä¡Å²(¾ç³ä)", 17000, 78912 },
-	{ "BBQ ¹Ù»èÄ­ Ä¡Å²(¸Å¿î¾ç³ä¸À)", 17500, 78912 },
-	{ "BBQ È²±İ¿Ã¸®ºê (ÇÖÀ®)", 18000, 78912 },
-	{ "BBQ ¸Å´Ş±¸(À®)", 19500, 78912 },
-	{ "BBQ ÀÚ¸ŞÀÌÄ« Åë´Ù¸®±¸ÀÌ", 17000, 49284 },
-	{ "BBQ Æşµà ÇÇÀÚ(R)", 14900, 78912 },
-	{ "BBQ ÄŞºñ³×ÀÌ¼Ç ÇÇÀÚ(R)", 13900, 78912 },
-	{ "BBQ ¹Ùº£Å¥ Ä¡Å² ÇÇÀÚ(R)", 15900, 78912 },
-	{ "BBQ ºê¶ó¿î ºñÇÁ ÇÇÀÚ(R)", 12900, 78912 },
-	{ "BBQ ¸¶¸£°Ô¸®Å¸ ÇÇÀÚ(R)", 12900, 78912 },
-	{ "BBQ ÇÏ¿ÍÀÌ¾È ³ÓÃ÷ ÇÇÀÚ(R)", 14900, 78912 },
-	{ "BBQ ½¬¸²ÇÁ °í¸£°ïÁ¹¶óÇÇÀÚ", 15900, 78912 },
-	{ "BBQ Ÿ‡Áö Æ÷Å×ÀÌÅäÇÇÀÚ", 13900, 78912 },
-	{ "BBQ ¶°¸Ô´ÂÄ¡ÁîÇ®(º£ÀÌÄÁ)", 14900, 78912 },
-	{ "BBQ ¶°¸Ô´ÂÄ¡ÁîÇ®(»õ¿ì)", 16900, 78912 },
-	{ "BBQ °í±¸¸¶ÇÇÀÚ(R)", 12900, 78912 },
-	{ "BBQ Ä¡ÁîÇÑÀÔÇÖµµ±×(5°³)", 3900, 78912 },
-	{ "BBQ Æ÷Å×ÀÌÅä", 3000, 78912 },
-	{ "BBQ ¿ÀÂ¡¾î¸µ", 3000, 78912 },
-	{ "BBQ Ä¡Áî½ºÆ½", 3000, 78912 },
-	{ "BBQ °í±¸¸¶½ºÆ½", 3000, 78912 },
-	{ "BBQ ²¿²¿ÄÅ", 2500, 78912 },
+	{ "BBQ í™©ê¸ˆ ì˜¬ë¦¬ë¸Œì¹˜í‚¨", 16000, 1234 },
+	{ "BBQ í™©ê¸ˆ ì˜¬ë¦¬ë¸Œì¹˜í‚¨ (ë°˜ë°˜)",17000, 12345 },
+	{ "BBQ í™©ê¸ˆ ì˜¬ë¦¬ë¸Œì¹˜í‚¨ (ë‹­ë‹¤ë¦¬)", 17500, 12243 },
+	{ "BBQ í™©ê¸ˆ ì˜¬ë¦¬ë¸Œì¹˜í‚¨ (ë§¤ìš´ ë‹­ë‹¤ë¦¬)",19000,12342 },
+	{ "BBQ ì‹œí¬ë¦¿ ì–‘ë…ì¹˜í‚¨", 17000, 21314 },
+	{ "BBQ ì‹œí¬ë¦¿ ì–‘ë…ì¹˜í‚¨ (ë§¤ìš´ë§›)", 17500, 15324 },
+	{ "BBQ í™©ê¸ˆ ì˜¬ë¦¬ë¸Œ ì†ì•ˆì‹¬", 17000, 74452 },
+	{ "BBQ ìˆœì‚´ í¬ë˜ì»¤",18000, 53142 },
+	{ "BBQ íŒŒë‹­ì˜ ê¿ˆ",19000, 24198 },
+	{ "BBQ ì¹˜í‚¨ ê°•ì •", 18000, 19422 },
+	{ "BBQ ë¹ ë¦¬ì¹˜í‚¨ (ìœ™)", 19000, 93872 },
+	{ "BBQ ë ˆë“œ ê°ˆë¦­ìŠ¤ (í•œë§ˆë¦¬)", 19900, 92803 },
+	{ "BBQ ë ˆë“œ ê°ˆë¦­ìŠ¤ (í•œë§ˆë¦¬ ìœ™)", 19900, 3241 },
+	{ "BBQ í™©ê¸ˆ ì˜¬ë¦¬ë¸Œ (ë°˜ë°˜ ë‹­ë‹¤ë¦¬}", 18500, 91842 },
+	{ "BBQ ìŠ¤ëª¨í¬ ì¹˜í‚¨",17000, 4928 },
+	{ "ìˆœì‚´ ë°”ì‚­ì¹¸ ì¹˜í‚¨", 17000, 49281 },
+	{ "ë°”ì‚­ì¹¸ ì¹˜í‚¨ (ë°˜ë°˜)", 17000, 92732 },
+	{ "BBQ ë§ˆë¼ í•«ì¹˜í‚¨", 18900, 1235 },
+	{ "BBQ ë§ˆë¼ í•«ì¹˜í‚¨ (ìœ™)",18900, 1236 },
+	{ "BBQ ë§ˆë¼ í•«ì¹˜í‚¨ (ìˆœì‚´)", 20900, 1237 },
+	{ "BBQ í—ˆë‹ˆ ê°ˆë¦­ìŠ¤", 18900, 1238 },
+	{ "BBQ í—ˆë‹ˆ ê°ˆë¦­ìŠ¤ (ìœ™)",18900, 1239 },
+	{ "BBQ ì¹˜ì¦ë§", 19000, 1240 },
+	{ "BBQ ì¹˜ì¦ë§ (ìˆœì‚´)", 19900, 1241 },
+	{ "BBQ ì†Œì´ê°ˆë¦­ìŠ¤(í•œë§ˆë¦¬)", 18900, 78912 },
+	{ "BBQ ì†Œì´ê°ˆë¦­ìŠ¤(í•œë§ˆë¦¬)(ìœ™)", 18900, 78912 },
+	{ "BBQ ì˜›ë‚ í†µë‹­", 14900, 78912 },
+	{ "BBQ ë°”ì‚­ì¹¸ ì¹˜í‚¨", 16000, 78912 },
+	{ "BBQ ë°”ì‚­ì¹¸ ì¹˜í‚¨(ì–‘ë…)", 17000, 78912 },
+	{ "BBQ ë°”ì‚­ì¹¸ ì¹˜í‚¨(ë§¤ìš´ì–‘ë…ë§›)", 17500, 78912 },
+	{ "BBQ í™©ê¸ˆì˜¬ë¦¬ë¸Œ (í•«ìœ™)", 18000, 78912 },
+	{ "BBQ ë§¤ë‹¬êµ¬(ìœ™)", 19500, 78912 },
+	{ "BBQ ìë©”ì´ì¹´ í†µë‹¤ë¦¬êµ¬ì´", 17000, 49284 },
+	{ "BBQ íë“€ í”¼ì(R)", 14900, 78912 },
+	{ "BBQ ì½¤ë¹„ë„¤ì´ì…˜ í”¼ì(R)", 13900, 78912 },
+	{ "BBQ ë°”ë² í ì¹˜í‚¨ í”¼ì(R)", 15900, 78912 },
+	{ "BBQ ë¸Œë¼ìš´ ë¹„í”„ í”¼ì(R)", 12900, 78912 },
+	{ "BBQ ë§ˆë¥´ê²Œë¦¬íƒ€ í”¼ì(R)", 12900, 78912 },
+	{ "BBQ í•˜ì™€ì´ì•ˆ ë„›ì¸  í”¼ì(R)", 14900, 78912 },
+	{ "BBQ ì‰¬ë¦¼í”„ ê³ ë¥´ê³¤ì¡¸ë¼í”¼ì", 15900, 78912 },
+	{ "BBQ ÂŸÂ‡ì§€ í¬í…Œì´í† í”¼ì", 13900, 78912 },
+	{ "BBQ ë– ë¨¹ëŠ”ì¹˜ì¦ˆí’€(ë² ì´ì»¨)", 14900, 78912 },
+	{ "BBQ ë– ë¨¹ëŠ”ì¹˜ì¦ˆí’€(ìƒˆìš°)", 16900, 78912 },
+	{ "BBQ ê³ êµ¬ë§ˆí”¼ì(R)", 12900, 78912 },
+	{ "BBQ ì¹˜ì¦ˆí•œì…í•«ë„ê·¸(5ê°œ)", 3900, 78912 },
+	{ "BBQ í¬í…Œì´í† ", 3000, 78912 },
+	{ "BBQ ì˜¤ì§•ì–´ë§", 3000, 78912 },
+	{ "BBQ ì¹˜ì¦ˆìŠ¤í‹±", 3000, 78912 },
+	{ "BBQ ê³ êµ¬ë§ˆìŠ¤í‹±", 3000, 78912 },
+	{ "BBQ ê¼¬ê¼¬ì»µ", 2500, 78912 },
 };
-void insert(node ** head) {
 
-	int i;
-	if (!(*head)) {
-		*head = get_node();
+node*head, *tail;
 
-		()
-			return;
-	}
-	insert(&(*head)->link);
+void calculate() {
+	head = (node*)malloc(sizeof(node));
+	tail = (node*)malloc(sizeof(node));
+	head->NEXT = tail;
+	tail->NEXT = NULL;
 }
-node * search(node * head, char *ornum) {
+
+void insertprint() {
 	system("cls");
-	if (!head) {
-		printf("Ã£´Â ÁÖ¹® ¾øÀ½ \n\n");
-		return 0;
-	}
-	if (!(strcmp(head->ornum, ornum))) {
-		printf("ÁÖ¹® °Ë»ö ¿Ï·á\n");
-		printf("========================\n");
-		printf("ÁÖ¹®ÀÚ ¹øÈ£ : %s\n", head->ornum);
-		printf("¹è´Ş µÉ ÁÖ¼ÒÁö : %s\n", head->deal);
-		printf("¹ö°Å ¸Ş´º¸í: %s ", head->bmenu);
-		printf(" ¼ö·® : %s °³\n", head->bnum);
-		printf("Ä¡Å² ¸Ş´º¸í : %s ", head->cmenu);
-		printf(" ¼ö·® : %s °³\n", head->cnum);
-		printf("µğÀúÆ® ¸Ş´º¸í : %s ", head->demenu);
-		printf(" ¼ö·® : %s °³\n", head->denum);
-		printf("µå¸µÅ© ¸Ş´º¸í : %s ", head->drmenu);
-		printf(" ¼ö·® : %s °³\n", head->drnum);
-		printf("ÂøÇÑ¾ÆÄ§ ¸Ş´º¸í : %s ", head->kmmenu);
-		printf(" ¼ö·® : %s °³\n", head->kmnum);
-		return head;
-	}
-	search(head->link, ornum);
-}
-void print(node *head) {
-	if (!head) {
-		printf("\< »ó¼¼ÇÑ ÁÖ¹® ³»¿ªÀº ÁÖ¹®°Ë»öÀ» ÀÌ¿ëÇÏ¼¼¿ä>\n");
+	int sum = 0;
+	node *p = head->NEXT;
+	if (p == tail) {
+		printf("ê³„ì‚°ëœ ë¬¼ê±´ì´ ì—†ìŠµë‹ˆë‹¤.\n");
 		return;
 	}
-	else {
-
-		printf(" \n%s    %s\n", head->ornum, head->deal);
+	while (p != tail) {
+		printf("%s\t  %dì›\t  %dê°œ\n", p->name, p->price, p->num);
+		sum += p->price*p->num;
+		p = p->NEXT;
 	}
-	print(head->link);
+	printf("\n");
+	printf("ì´ í•©ê³„ : %dì›\n", sum);
 }
-//node * : ¿ø·¡ ¿¬°á¸®½ºÆ®ÀÇ ½ÃÀÛÁÖ¼Ò
-//char * : ÀüÈ­¹øÈ£
-void modify(node * head, char * ornum) {
-	head = search(head, ornum);
-	int i;
-	if (head) {
-		while (1) {
-			printf("¼öÁ¤ÇÒ Ç×¸ñÀ» ¼±ÅÃ ÇÏ½Ã¿À \n");
-			printf("1. ¸Ş´º¼öÁ¤  2. ¼ö·®¼öÁ¤  3.¹è´ŞÁö¼öÁ¤  4. ¼öÁ¤Á¾·á\n¼±ÅÃ : ");
-			scanf("%d", &i);
-			switch (i) {
-			case 1:
-				printf("1. ¹ö°Å¸Ş´º  2. Ä¡Å²¸Ş´º  3. µğÀúÆ®¸Ş´º  4. µå¸µÅ©¸Ş´º  5. ÂøÇÑ¾ÆÄ§¸Ş´º\n");
-				printf("¼±ÅÃ : ");
-				scanf("%d", &i);
-				switch (i) {
-				case 1:
-					printf("0 -> ¹ö°Å¸Ş´ºX 1 -> ¹ö°Å´ÜÇ°  2 -> ¹ö°Å¼¼Æ®\n");
-					scanf("%d", &i);
-					switch (i) {
-					case 0:
-						strcpy((head)->bmenu, "X");
-						strcpy((head)->bnum, "X"); goto a;
-					case 2:
-						printf(" << ¹ö°Å¸Ş´º >>\n\n");
-						printf(" 1. ÇÑ¿ì ºÒ°í±â\n 2. ¸ğÂ¥·¼¶ó ÀÎ ´õ ¹ö°Å\n 3. ¿øÁ¶ ºòºÒ ¼¼Æ®\n 4.À¯·¯ÇÇ¾ğ Ä¡Áî ¹ö°Å\n 5. ¿ÍÀÏµå ½¬¸²ÇÁ ¹ö°Å\n");
-						printf(" 6. ¶ùÃ÷ ¹ö°Å\n 7. ÇÖÅ©¸®½ºÇÇ¹ö°Å\n 8. °­Á¤¹ö°Å\n 9.¸®Ä¡¹ö°Å\n 10.ºÒ°¥ºñ¹ö°Å\n");
-						printf(" 11. ¾ßÃ¤¶óÀÌ½º ºÒ°í±â\n 12. ºÒ°í±â ¹ö°Å\n 13. »õ¿ì¹ö°Å\n 14.Ä¡Å²¹ö°Å\n 15. µ¥¸®¹ö°Å\n 16.Ä¡Áî¹ö°Å\n 0.¹ö°Å¸Ş´º¼±ÅÃ X\n");
-						printf("\n¹ö°Å¸Ş´º¸¦ ¼±ÅÃÇÏ¼¼¿ä:");
-						scanf("%d", &i);
-						switch (i) {
-						case 1:
-							strcpy((head)->bmenu, "ÇÑ¿ì ºÒ°í±â ¼¼Æ®"); goto a;
-						case 2:
-							strcpy((head)->bmenu, "¸ğÂ¥·¼¶ó ÀÎ´õ ¹ö°Å ¼¼Æ®"); goto a;
-						case 3:
-							strcpy((head)->bmenu, "¿øÁ¶ ºòºÒ ¹ö°Å ¼¼Æ®"); goto a;
-						case 4:
-							strcpy((head)->bmenu, "À¯·¯ÇÇ¾ğ Ä¡Áî ¹ö°Å ¼¼Æ®"); goto a;
-						case 5:
-							strcpy((head)->bmenu, "¿ÍÀÏµå ½¬¸²ÇÁ ¹ö°Å ¼¼Æ®"); goto a;
-						case 6:
-							strcpy((head)->bmenu, "¶ùÃ÷ ¹ö°Å ¼¼Æ®"); goto a;
-						case 7:
-							strcpy((head)->bmenu, "ÇÖÅ©¸®½ºÇÇ ¹ö°Å ¼¼Æ®"); goto a;
-						case 8:
-							strcpy((head)->bmenu, "°­Á¤¹ö°Å ¼¼Æ®"); goto a;
-						case 9:
-							strcpy((head)->bmenu, "¸®Ä¡ ¹ö°Å ¼¼Æ®"); goto a;
-						case 10:
-							strcpy((head)->bmenu, "ºÒ°¥ºñ ¹ö°Å ¼¼Æ®"); goto a;
-						case 11:
-							strcpy((head)->bmenu, "¾ßÃ¤¶óÀÌ½º ºÒ°í±â ¼¼Æ®"); goto a;
-						case 12:
-							strcpy((head)->bmenu, "ºÒ°í±â ¹ö°Å ¼¼Æ®"); goto a;
-						case 13:
-							strcpy((head)->bmenu, "»õ¿ì ¹ö°Å ¼¼Æ®"); goto a;
-						case 14:
-							strcpy((head)->bmenu, "Ä¡Å² ¹ö°Å ¼¼Æ®"); goto a;
-						case 15:
-							strcpy((head)->bmenu, "µ¥¸® ¹ö°Å ¼¼Æ®"); goto a;
-						case 16:
-							strcpy((head)->bmenu, "Ä¡Áî ¹ö°Å ¼¼Æ®"); goto a;
-						}
-					case 1:
-						printf(" << ¹ö°Å¸Ş´º >>\n\n");
-						printf(" 1. ÇÑ¿ì ºÒ°í±â\n 2. ¸ğÂ¥·¼¶ó ÀÎ ´õ ¹ö°Å\n 3. ¿øÁ¶ ºòºÒ ¼¼Æ®\n 4.À¯·¯ÇÇ¾ğ Ä¡Áî ¹ö°Å\n 5. ¿ÍÀÏµå ½¬¸²ÇÁ ¹ö°Å\n");
-						printf(" 6. ¶ùÃ÷ ¹ö°Å\n 7. ÇÖÅ©¸®½ºÇÇ¹ö°Å\n 8. °­Á¤¹ö°Å\n 9.¸®Ä¡¹ö°Å\n 10.ºÒ°¥ºñ¹ö°Å\n");
-						printf(" 11. ¾ßÃ¤¶óÀÌ½º ºÒ°í±â\n 12. ºÒ°í±â ¹ö°Å\n 13. »õ¿ì¹ö°Å\n 14.Ä¡Å²¹ö°Å\n 15. µ¥¸®¹ö°Å\n 16.Ä¡Áî¹ö°Å\n 0.¹ö°Å¸Ş´º¼±ÅÃ X\n");
-						printf("\n¹ö°Å¸Ş´º¸¦ ¼±ÅÃÇÏ¼¼¿ä:");
-						scanf("%d", &i);
-						switch (i) {
-						case 1:
-							strcpy((head)->bmenu, "ÇÑ¿ì ºÒ°í±â"); goto a;
-						case 2:
-							strcpy((head)->bmenu, "¸ğÂ¥·¼¶ó ÀÎ´õ ¹ö°Å"); goto a;
-						case 3:
-							strcpy((head)->bmenu, "¿øÁ¶ ºòºÒ ¹ö°Å"); goto a;
-						case 4:
-							strcpy((head)->bmenu, "À¯·¯ÇÇ¾ğ Ä¡Áî ¹ö°Å"); goto a;
-						case 5:
-							strcpy((head)->bmenu, "¿ÍÀÏµå ½¬¸²ÇÁ ¹ö°Å"); goto a;
-						case 6:
-							strcpy((head)->bmenu, "¶ùÃ÷ ¹ö°Å"); goto a;
-						case 7:
-							strcpy((head)->bmenu, "ÇÖÅ©¸®½ºÇÇ ¹ö°Å"); goto a;
-						case 8:
-							strcpy((head)->bmenu, "°­Á¤¹ö°Å"); goto a;
-						case 9:
-							strcpy((head)->bmenu, "¸®Ä¡ ¹ö°Å"); goto a;
-						case 10:
-							strcpy((head)->bmenu, "ºÒ°¥ºñ ¹ö°Å"); goto a;
-						case 11:
-							strcpy((head)->bmenu, "¾ßÃ¤¶óÀÌ½º ºÒ°í±â"); goto a;
-						case 12:
-							strcpy((head)->bmenu, "ºÒ°í±â ¹ö°Å"); goto a;
-						case 13:
-							strcpy((head)->bmenu, "»õ¿ì ¹ö°Å"); goto a;
-						case 14:
-							strcpy((head)->bmenu, "Ä¡Å² ¹ö°Å"); goto a;
-						case 15:
-							strcpy((head)->bmenu, "µ¥¸® ¹ö°Å"); goto a;
-						case 16:
-							strcpy((head)->bmenu, "Ä¡Áî ¹ö°Å"); goto a;
-						case 0:
-							strcpy((head)->bmenu, "X");
-							strcpy((head)->bnum, "X"); goto a;
-						}
-					}
-				case 2:
-					printf("\n\n<< Ä¡Å²¸Ş´º >>\n");
-					printf(" 1. Ä¡Å² ÇÏÇÁÆÑ(2ÀÎºĞ)\n 2. ¼ø»ìÄ¡Å² ÇÏÇÁÆÑ\n 3. ¼ø»ìÄ¡Å² Ç®ÆÑ\n 4. Ä¡Å² Ç®ÆÑ\n 5. ÆĞ¹Ğ¸®ÆÑ(3ÀÎºĞ)\n");
-					printf(" 6. È­ÀÌ¾îÀ®(2Á¶°¢)\n 7. Ä¡Å²ÈÙ·¹(2Á¶°¢)\n 8. Ä¡Å²1Á¶°¢\n 0. Ä¡Å² ¸Ş´º X\n");
-					printf("\nÄ¡Å² ¸Ş´º ¼±ÅÃ  : ");
-					scanf("%d", &i);
-					switch (i) {
-					case 1:
-						strcpy((head)->cmenu, "Ä¡Å² ÇÏÇÁÆÑ(2ÀÎºĞ)"); break;
-					case 2:
-						strcpy((head)->cmenu, "¼ø»ìÄ¡Å² ÇÏÇÁÆÑ"); break;
-					case 3:
-						strcpy((head)->cmenu, "¼ø»ìÄ¡Å² Ç®ÆÑ"); break;
-					case 4:
-						strcpy((head)->cmenu, "Ä¡Å² Ç®ÆÑ"); break;
-					case 5:
-						strcpy((head)->cmenu, "ÆĞ¹Ğ¸®ÆÑ(3ÀÎºĞ)"); break;
-					case 6:
-						strcpy((head)->cmenu, "È­ÀÌ¾îÀ®(2Á¶°¢)"); break;
-					case 7:
-						strcpy((head)->cmenu, "Ä¡Å²ÈÙ·¹(2Á¶°¢)"); break;
-					case 8:
-						strcpy((head)->cmenu, "Ä¡Å² 1Á¶°¢"); break;
-					case 0:
-						strcpy((head)->cmenu, "X");
-						strcpy((head)->cnum, "X"); break;
-					}
-				case 3:
-					printf("<< µğÀúÆ® ¸Ş´º >>\n");
-					printf(" 1. ½§½§Ä¡Å²\n 2. È«°Ô³Ê°Ù\n 3. ¿ÀÂ¡¾î¸µ\n 4. Å©·±Ä¡»õ¿ì\n 5. ¾ç³ä°¨ÀÚ\n");
-					printf(" 6. ³»Ãß·² Ä¡Áî ½ºÆ½\n 7. Æ÷Å×ÀÌÅä\n 8. ¼ÒÇÁÆ®ÄÜ\n 9. Åä³×ÀÌµµ\n 10.°í¼ÒÇÑ Äáºù¼ö\n");
-					printf(" 11. »óÅ­ÇÑ °úÀÏºù¼ö\n 12. ¼±µ¥ ¾ÆÀÌ½ºÅ©¸² ÆĞ¼ÇÈÄ¸£Ã÷\n 0. µğÀúÆ® ¸Ş´º X\n");
-					printf("\nµğÀúÆ® ¸Ş´º ¼±ÅÃ : ");
-					scanf("%d", &i);
-					switch (i) {
-					case 1:
-						printf("1. ¾î´Ï¾ğ  2. Ä¡Áî  3. Ä¥¸®");
-						scanf("%d", &i);
-						switch (i) {
-						case 1:
-							strcpy((head)->demenu, "½§½§Ä¡Å² ¾î´Ï¾ğ"); goto a;
-						case 2:
-							strcpy((head)->demenu, "½§½§Ä¡Å² Ä¡Áî"); goto a;
-						case 3:
-							strcpy((head)->demenu, "½§½§Ä¡Å² Ä¥¸®"); goto a;
-						}
-					case 2:
-						strcpy((head)->demenu, "È«°Ô ³Ê°Ù"); goto a;
-					case 3:
-						strcpy((head)->demenu, "¿ÀÂ¡¾î¸µ"); goto a;
-					case 4:
-						strcpy((head)->demenu, "Å©·±Ä¡»õ¿ì"); goto a;
-					case 5:
-						strcpy((head)->demenu, "¾ç³ä°¨ÀÚ"); goto a;
-					case 6:
-						strcpy((head)->demenu, "³»Ãß·² Ä¡Áî ½ºÆ½"); goto a;
-					case 7:
-						strcpy((head)->demenu, "Æ÷Å×ÀÌÅä"); goto a;
-					case 8:
-						strcpy((head)->demenu, "¼ÒÇÁÆ®ÄÜ"); goto a;
-					case 9:
-						printf("1. ·¹¸óÆË  2. ÆĞ¼ÇÈÄ¸£Ã÷  3. ÃÊÄÚÄíÅ°  4. ³ìÂ÷  5. ½ºÆ®·Îº£¸®  6.¸ÅÁ÷ÆË\n");
-						scanf("%d", &i);
-						switch (i) {
-						case 1:
-							strcpy((head)->demenu, "Åä³×ÀÌµµ ·¹¸óÆË"); goto a;
-						case 2:
-							strcpy((head)->demenu, "Åä³×ÀÌµµ ÆĞ¼ÇÈÄ¸£Ã÷"); goto a;
-						case 3:
-							strcpy((head)->demenu, "Åä³×ÀÌµµ ÃÊÄÚÄíÅ°"); goto a;
-						case 4:
-							strcpy((head)->demenu, "Åä³×ÀÌµµ ³ìÂ÷"); goto a;
-						case 5:
-							strcpy((head)->demenu, "Åä³×ÀÌµµ ½ºÆ®·Îº£¸®"); goto a;
-						case 6:
-							strcpy((head)->demenu, "Åä³×ÀÌµµ ¸ÅÁ÷ÆË"); goto a;
-						}
-					case 10:
-						strcpy((head)->demenu, "°í¼ÒÇÑ Äáºù¼ö"); goto a;
-					case 11:
-						strcpy((head)->demenu, "»óÅ­ÇÑ °úÀÏºù¼ö"); goto a;
-					case 12:
-						strcpy((head)->demenu, "¼±µ¥¾ÆÀÌ½ºÅ©¸² ÆĞ¼Ç ÈÄ¸£Ã÷"); goto a;
-					case 0:
-						strcpy((head)->denum, "X");
-						strcpy((head)->demenu, "X"); goto a;
-					}
+
+void printLinkedList() {
+	system("cls");
+	int sum = 0;
+	int input;
+	node *p = head->NEXT;
+	if (p == tail) {
+		printf("ê³„ì‚°ëœ ë¬¼ê±´ì´ ì—†ìŠµë‹ˆë‹¤.\n");
+		system("pause");
+		return;
+	}
+	while (p != tail) {
+		printf("%s\t  %dì›\t  %dê°œ\n", p->name, p->price, p->num);
+		sum += p->price*p->num;
+		p = p->NEXT;
+	}
+	printf("\n");
+	printf("ì´ í•©ê³„ : %dì›\n", sum);
+	printf("ë°›ì€ ê¸ˆì•¡ : ");
+	scanf("%d", &input);
+	if (sum > input) {
+		printf("ë‚¨ì€ ê¸ˆì•¡ : %dì›\n", sum - input);
+	}
+	else if (sum < input) {
+		printf("ê±°ìŠ¤ë¦„ëˆ : %dì›\n", input - sum);
+	}
+	calculate();
+	system("pause");
+}
 
 
-				case 4:
-					printf("<< µå¸µÅ© ¸Ş´º >>\n");
-					printf(" 1. ÇÖÆ¼\n 2. ÇÖÃÊÄÚ\n 3. Ä¿ÇÇ·ù\n 4. ·¹¸ó¿¡ÀÌµå\n 5. »ç°úÁÖ½º\n");
-					printf(" 6. ¿À·»Áö ÁÖ½º\n 7. ¾ÆÀÌ½ºÆ¼(º¹¼ş¾Æ)\n 8. ¹ĞÅ©½¦ÀÌÅ©\n 9. Åº»êÀ½·á\n 10. ¿ìÀ¯\n 0. µå¸µÅ©¸Ş´º X\n");
-					printf("µå¸µÅ© ¸Ş´º ¼±ÅÃ : ");
-					scanf("%d", &i);
-					switch (i) {
-					case 1:
-						strcpy((head)->drmenu, "ÇÖÆ¼"); goto a;
-					case 2:
-						strcpy((head)->drmenu, "ÇÖÃÊÄÚ"); goto a;
-					case 3:
-						printf(" 1. Ä«¶ó¸á ¸¶³¢¾Æ¶Ç  2. Ä«Æä¸ğÄ«  3. Ä«Æä¶ó¶¼  4. ¾Æ¸Ş¸®Ä«³ë  5. ¾ÆÀÌ½º ¾Æ¸Ş¸®Ä«³ë\n 6.¾ÆÀÌ½º Ä«Æä¶ó¶¼");
-						scanf("%d", &i);
-						switch (i) {
-						case 1:
-							strcpy((head)->drmenu, "Ä«¶ó¸á ¸¶³¢¾Æ¶Ç"); goto a;
-						case 2:
-							strcpy((head)->drmenu, "Ä«Æä ¸ğÄ«"); goto a;
-						case 3:
-							strcpy((head)->drmenu, "Ä«Æä¶ó¶¼"); goto a;
-						case 4:
-							strcpy((head)->drmenu, "¾Æ¸Ş¸®Ä«³ë"); goto a;
-						case 5:
-							strcpy((head)->drmenu, "¾ÆÀÌ½º ¾Æ¸Ş¸®Ä«³ë"); goto a;
-						case 6:
-							strcpy((head)->drmenu, "¾ÆÀÌ½º Ä«Æä¶ó¶¼"); goto a;
-						}
-					case 4:
-						strcpy((head)->drmenu, "·¹¸ó¿¡ÀÌµå"); goto a;
-					case 5:
-						strcpy((head)->drmenu, "»ç°ú ÁÖ½º"); goto a;
-					case 6:
-						strcpy((head)->drmenu, "¿À·»ÁöÁÖ½º"); goto a;
-					case 7:
-						strcpy((head)->drmenu, "¾ÆÀÌ½ºÆ¼(º¹¼ş¾Æ)"); goto a;
-					case 8:
-						printf("1. ¹Ù´Ò¶ó  2. ÃÊÄÚ  3. µş±â\n :");
-						scanf("%d", &i);
-						switch (i) {
-						case 1:
-							strcpy((head)->drmenu, "¹ĞÅ©½¦ÀÌÅ© ¹Ù´Ò¶ó"); goto a;
-						case 2:
-							strcpy((head)->drmenu, "¹ĞÅ©½¦ÀÌÅ© ÃÊÄÚ"); goto a;
-						case 3:
-							strcpy((head)->drmenu, "¹ĞÅ©½¦ÀÌÅ© µş±â"); goto a;
-						}
-					case 9:
-						printf("1. »çÀÌ´Ù  2. Äİ¶ó\n");
-						scanf("%d", &i);
-						switch (i) {
-						case 1:
-							strcpy((head)->drmenu, "»çÀÌ´Ù"); goto a;
-						case 2:
-							strcpy((head)->drmenu, "Äİ¶ó"); goto a;
-						}
-					case 10:
-						strcpy((head)->drmenu, "¿ìÀ¯"); goto a;
-					case 0:
-						strcpy((head)->drmenu, "X");
-						strcpy((head)->drnum, "X"); goto a;
-					}
-				case 5:
-					printf("ÄŞº¸ÁÖ¹®½Ã Ä¿ÇÇÃß°¡  ¼¼Æ®ÁÖ¹®½Ã Ä¿ÇÇ,ÇØ½¬ºê¶ó¿îÃß°¡\n");
-					printf("´Ü! ÇØ½¬ºê¶ó¿î ÄŞº¸,¼¼Æ®´Â ¾øÀ½!!\n");
-					printf("´ÜÇ°: 1  ÄŞº¸: 2  ¼¼Æ®: 3  ÂøÇÑ¾ÆÄ§¸Ş´º X : 0\n");
-					printf("¼±ÅÃ : ");
-					scanf("%d", &i);
-					switch (i) {
-					case 0:
-						strcpy((head)->kmmenu, "X");
-						strcpy((head)->kmnum, "X"); goto a;
-					case 1:
-						printf("0. ÂøÇÑ¾ÆÄ§¸Ş´º X  1. ÇÜÄ¡Áî¶óÀÌ½º  2. ÇÜ¿¡±×¸ÓÇÉ  3. ¼Ò½ÃÁö¿¡±×¸ÓÇÉ  4. º£ÀÌÄÁÄ¡Å²¸ÓÇÉ  5. º£ÀÌÄÁ¼Ò½ÃÁö¿¡±×¸ÓÇÉ  6. ÇØ½¬ºê¶ó¿î\n");
-						scanf("%d", &i);
-						switch (i) {
-						case 1:
-							strcpy((head)->kmmenu, "ÇÜÄ¡Áî¶óÀÌ½º"); goto a;
-						case 2:
-							strcpy((head)->kmmenu, "ÇÜ¿¡±×¸ÓÇÉ"); goto a;
-						case 3:
-							strcpy((head)->kmmenu, "¼Ò½ÃÁö¿¡±×¸ÓÇÉ"); goto a;
-						case 4:
-							strcpy((head)->kmmenu, "º£ÀÌÄÁÄ¡Å²¸ÓÇÉ"); goto a;
-						case 5:
-							strcpy((head)->kmmenu, "º£ÀÌÄÁ¼Ò½ÃÁö¿¡±×¸ÓÇÉ"); goto a;
-						case 6:
-							strcpy((head)->kmmenu, "ÇØ½¬ºê¶ó¿î"); goto a;
-						}
-					case 2:
-						printf("1. ÇÜÄ¡Áî¶óÀÌ½ºÄŞº¸  2. ÇÜ¿¡±×¸ÓÇÉÄŞº¸  3. ¼Ò½ÃÁö¿¡±×¸ÓÇÉÄŞº¸  4. º£ÀÌÄÁÄ¡Å²¸ÓÇÉÄŞº¸  5. º£ÀÌÄÁ¼Ò½ÃÁö¿¡±×¸ÓÇÉÄŞº¸  6. ÇØ½¬ºê¶ó¿î\n");
-						scanf("%d", &i);
-						switch (i) {
-						case 1:
-							strcpy((head)->kmmenu, "ÇÜÄ¡Áî¶óÀÌ½ºÄŞº¸"); goto a;
-						case 2:
-							strcpy((head)->kmmenu, "ÇÜ¿¡±×¸ÓÇÉÄŞº¸"); goto a;
-						case 3:
-							strcpy((head)->kmmenu, "¼Ò½ÃÁö¿¡±×¸ÓÇÉÄŞº¸"); goto a;
-						case 4:
-							strcpy((head)->kmmenu, "º£ÀÌÄÁÄ¡Å²¸ÓÇÉÄŞº¸"); goto a;
-						case 5:
-							strcpy((head)->kmmenu, "º£ÀÌÄÁ¼Ò½ÃÁö¿¡±×¸ÓÇÉÄŞº¸"); goto a;
-						case 6:
-							strcpy((head)->kmmenu, "ÇØ½¬ºê¶ó¿î"); goto a;
-						}
-					case 3:
-						printf("1. ÇÜÄ¡Áî¶óÀÌ½º¼¼Æ®  2. ÇÜ¿¡±×¸ÓÇÉ¼¼Æ®  3. ¼Ò½ÃÁö¿¡±×¸ÓÇÉ¼¼Æ®  4. º£ÀÌÄÁÄ¡Å²¸ÓÇÉ¼¼Æ®  5. º£ÀÌÄÁ¼Ò½ÃÁö¿¡±×¸ÓÇÉ¼¼Æ®  6. ÇØ½¬ºê¶ó¿î\n");
-						scanf("%d", &i);
-						switch (i) {
-						case 1:
-							strcpy((head)->kmmenu, "ÇÜÄ¡Áî¶óÀÌ½º¼¼Æ®"); break;
-						case 2:
-							strcpy((head)->kmmenu, "ÇÜ¿¡±×¸ÓÇÉ¼¼Æ®"); break;
-						case 3:
-							strcpy((head)->kmmenu, "¼Ò½ÃÁö¿¡±×¸ÓÇÉ¼¼Æ®"); break;
-						case 4:
-							strcpy((head)->kmmenu, "º£ÀÌÄÁÄ¡Å²¸ÓÇÉ¼¼Æ®"); break;
-						case 5:
-							strcpy((head)->kmmenu, "º£ÀÌÄÁ¼Ò½ÃÁö¿¡±×¸ÓÇÉ¼¼Æ®"); break;
-						case 6:
-							strcpy((head)->kmmenu, "ÇØ½¬ºê¶ó¿î"); break;
-						}
-					}
-				}//¸Ş´º¼öÁ¤ switch³¡
-			case 2:
-				printf("<< ¼ö·®À» ¼öÁ¤ÇÒ ¸Ş´º¸¦ ¼±ÅÃÇÏ¼¼¿ä >>\n");
-				printf("1 .¹ö°Å¸Ş´º  2. Ä¡Å²¸Ş´º  3. µğÀúÆ®¸Ş´º  4. µå¸µÅ©¸Ş´º  5. ÂøÇÑ¾ÆÄ§¸Ş´º\n");
-				printf("¼±ÅÃ : ");
-				scanf("%d", &i);
-				switch (i) {
-				case 1:
-					printf("ÇöÀç ¹ö°Å¸Ş´º ¼ö·® : %s\n\n", (head)->bnum);
-					printf("¼öÁ¤ÇÒ ¹ö°Å¸Ş´º ¼ö·®: ");
-					fflush(stdin);
-					gets((head)->bnum); goto a;
-				case 2:
-					printf("ÇöÀç Ä¡Å²¸Ş´º ¼ö·® : %s\n\n", (head)->cnum);
-					printf("¼öÁ¤ÇÒ Ä¡Å²¸Ş´º ¼ö·®: ");
-					fflush(stdin);
-					gets((head)->cnum); goto a;
-				case 3:
-					printf("ÇöÀç µğÀúÆ®¸Ş´º ¼ö·® : %s\n\n", (head)->denum);
-					printf("¼öÁ¤ÇÒ µğÀúÆ®¸Ş´º ¼ö·®: ");
-					fflush(stdin);
-					gets((head)->denum); goto a;
-				case 4:
-					printf("ÇöÀç µå¸µÅ©¸Ş´º ¼ö·® : %s\n\n", (head)->drnum);
-					printf("¼öÁ¤ÇÒ µå¸µÅ©¸Ş´º ¼ö·®: ");
-					fflush(stdin);
-					gets((head)->drnum); goto a;
-				case 5:
-					printf("ÇöÀç ÂøÇÑ¾ÆÄ§¸Ş´º ¼ö·® : %s\n\n", (head)->kmnum);
-					printf("¼öÁ¤ÇÒ ÂøÇÑ¾ÆÄ§¸Ş´º ¼ö·®: ");
-					fflush(stdin);
-					gets((head)->kmnum); goto a;
-				}
-			case 3:
-				printf("ÇöÀç ¹è´ŞÁö : %s\n ", (head)->deal);
-				fflush(stdin);
-				printf("¼öÁ¤ÇÒ ¹è´ŞÁö : ");
-				gets((head)->deal); goto a;
-			case 4:
-				printf("¼öÁ¤À» Á¾·áÇÕ´Ï´Ù."); system("pause"); return;
+void insertnode() {
+	system("cls");
+	while (1) {
+		int barcode;
+		node *New = (node*)malloc(sizeof(node));
+		node *a = head;
+		scanf("%d", &barcode);
+		while (a->NEXT != tail) {
+			a = a->NEXT;
+			if (a->barcode == barcode) {
+				a->num++;
+				break;
 			}
-		a:
-			printf("¼öÁ¤¿Ï·á\n");
-			system("pause"); system("cls");
 		}
-
+		for (int i = 0; i < (sizeof(db) / sizeof(database)); i++) {
+			if (db[i].barcode == barcode && db[i].barcode != a->barcode) {
+				strcpy(New->name, db[i].name);
+				New->price = db[i].price;
+				New->barcode = db[i].barcode;
+				New->NEXT = tail;
+				New->num = 1;
+				a->NEXT = New;
+			}
+			else if (barcode == 0) return;
+		}
+		insertprint();
 	}
 }
-void del(node ** head, char * ornum) {
-	node * tmp;
-	if (!*head) {
-		printf("»èÁ¦ÇÒ  ÁÖ¹® ¾øÀ½ \n"); return;
+void deletenode() {
+	int barcode;
+	scanf("%d", &barcode);
+	node *p = head->NEXT;
+	node *o = head;
+	while (p != tail) {
+		if (p->barcode == barcode && p->num == 1) {
+			node*s = p->NEXT;
+			free(p);
+			o->NEXT = s;
+			break;
+		}
+		else if (p->barcode == barcode && p->num > 1) {
+			p->num--;
+			break;
+		}
+		p = p->NEXT;
+		o = o->NEXT;
 	}
-	if (!(strcmp((*head)->ornum, ornum))) {
-		tmp = *head;
-		*head = (*head)->link;
-		free(tmp);
-		printf("»èÁ¦¿Ï·á\n"); return;
-	}
-	del(&(*head)->link, ornum);
 }
 void main() {
-	node * head = 0;
-	int i;
-	char name[20];
+	int a = 0;
+	calculate();
 	while (1) {
-		printf("< < < === ·Ôµ¥¸®¾Æ È¨¼­ºñ½º === > > >\n\n");
-		printf("1. ÁÖ¹® µî·Ï\n");
-		printf("2. ÁÖ¹® »ó¼¼ °Ë»ö\n");
-		printf("3. ¹è´ŞÁö ¸ñ·Ï\n");
-		printf("4. ÁÖ¹® ¼öÁ¤\n");
-		printf("5. ÆÇ¸Å ¿Ï·á\n");
-		printf("6. Á¾     ·á\n");
-		printf("¼±  ÅÃ : "); scanf("%d", &i);
-		switch (i) {
-		case 1:insert(&head); break;
-		case 2:printf("ÁÖ¹®ÀÚ ¹øÈ£ ÀÔ·Â : "); scanf("%s", name); search(head, name); break;
-		case 3:printf("%4s  %4s\n", "ÁÖ¹®ÀÚ ¹øÈ£    ", " ¹è´ŞÁö    "); print(head); break;
-		case 4:printf("¼öÁ¤ÇÒ ÁÖ¹®ÀÚ ¹øÈ£ : "); scanf("%s", name); modify(head, name); break;
-		case 5:printf("ÁÖ¹®ÀÚ ¹øÈ£ ÀÔ·Â : "); scanf("%s", name); del(&head, name); break;
-		case 6:return;
+		system("cls");
+		int num;
+		printf("<<< === BBQ íŒë§¤ë§¤ì¥ === >>>\n\n");
+		printf("1. ì£¼ë¬¸ ë“±ë¡\n");
+		printf("2. ì£¼ë¬¸ ì‚­ì œ\n");
+		printf("3. í˜„ì¬ ì£¼ë¬¸ í˜„í™©\n");
+		printf("4. ì •ì‚°\n:");
+		scanf("%d", &num);
+		switch (num) {
+		case 1:insertnode(); break;
+		case 2:deletenode(); break;
+		case 3: {
+			insertprint();
+			system("pause");
+			break;
 		}
-		system("pause"); system("cls");
+		case 4: printLinkedList();
+		}
 	}
 }
