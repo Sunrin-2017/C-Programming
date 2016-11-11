@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include"선린.h"
 //총매출 기능 삽입
+// 오류수정:4.정산기능 오류씨@발람의거
 typedef struct LinkedList {
 	char name[100];
 	int price;
@@ -73,7 +74,7 @@ void calculate() {
 	tail->NEXT = NULL;
 }
 
-void insertprint() {
+void noworder() {
 	system("cls");
 	int sum = 0;
 	node *p = head->NEXT;
@@ -90,7 +91,7 @@ void insertprint() {
 	printf("총 합계 : %d원\n", sum);
 }
 
-void printLinkedList() {
+void pay () {
 	system("cls");
 	int sum = 0;
 	int input;
@@ -120,7 +121,7 @@ void printLinkedList() {
 }
 
 
-void insertnode() {
+void orderadd () {
 	system("cls");
 	while (1) {
 		int barcode;
@@ -145,10 +146,10 @@ void insertnode() {
 			}
 			else if (barcode == 0) return;
 		}
-		insertprint();
+		noworder ();
 	}
 }
-void deletenode() {
+void cancel () {
 	int barcode;
 	scanf("%d", &barcode);
 	node *p = head->NEXT;
@@ -181,14 +182,14 @@ void main() {
 		printf("4. 정산\n:");
 		scanf("%d", &num);
 		switch (num) {
-		case 1:insertnode(); break;
-		case 2:deletenode(); break;
+		case 1:orderadd(); break;
+		case 2:cancel(); break;
 		case 3: {
-			insertprint();
+			noworder();
 			system("pause");
 			break;
 		}
-		case 4: printLinkedList();
+		case 4: cancel();
 		}
 	}
 }

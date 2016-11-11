@@ -1,15 +1,2 @@
-﻿  program.cpp
-c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\program.cpp(55): warning C4566: 유니버설 문자 이름 '\u009F'(으)로 표현되는 문자는 현재 코드 페이지(949)에서 표현할 수 없습니다.
-c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\program.cpp(55): warning C4566: 유니버설 문자 이름 '\u0087'(으)로 표현되는 문자는 현재 코드 페이지(949)에서 표현할 수 없습니다.
-c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\program.cpp(111): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1270): note: 'scanf' 선언을 참조하십시오.
-c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\program.cpp(129): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1270): note: 'scanf' 선언을 참조하십시오.
-c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\program.cpp(139): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: 'strcpy' 선언을 참조하십시오.
-c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\program.cpp(153): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1270): note: 'scanf' 선언을 참조하십시오.
-c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\program.cpp(182): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1270): note: 'scanf' 선언을 참조하십시오.
-  ConsoleApplication1.vcxproj -> C:\Users\SunSet\Desktop\Sunrin\C-Programming_Taehee\Debug\ConsoleApplication1.exe
-  ConsoleApplication1.vcxproj -> C:\Users\SunSet\Desktop\Sunrin\C-Programming_Taehee\Debug\ConsoleApplication1.pdb (Full PDB)
+﻿  ConsoleApplication1.vcxproj -> C:\Users\blue079\Documents\Visual Studio 2015\Projects\ConsoleApplication1\Debug\ConsoleApplication1.exe
+  ConsoleApplication1.vcxproj -> C:\Users\blue079\Documents\Visual Studio 2015\Projects\ConsoleApplication1\Debug\ConsoleApplication1.pdb (Full PDB)

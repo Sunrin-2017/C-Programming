@@ -142,7 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="program.cpp" />
+    <ClCompile Include="선린.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="선린.h" />
