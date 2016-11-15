@@ -1,2 +1,16 @@
-﻿  ConsoleApplication1.vcxproj -> C:\Users\blue079\Documents\Visual Studio 2015\Projects\ConsoleApplication1\Debug\ConsoleApplication1.exe
-  ConsoleApplication1.vcxproj -> C:\Users\blue079\Documents\Visual Studio 2015\Projects\ConsoleApplication1\Debug\ConsoleApplication1.pdb (Full PDB)
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (ConsoleApplication1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  선린.cpp
+c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\선린.cpp(56): warning C4566: 유니버설 문자 이름 '\u009F'(으)로 표현되는 문자는 현재 코드 페이지(949)에서 표현할 수 없습니다.
+c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\선린.cpp(56): warning C4566: 유니버설 문자 이름 '\u0087'(으)로 표현되는 문자는 현재 코드 페이지(949)에서 표현할 수 없습니다.
+c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\선린.cpp(112): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1270): note: 'scanf' 선언을 참조하십시오.
+c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\선린.cpp(130): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1270): note: 'scanf' 선언을 참조하십시오.
+c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\선린.cpp(140): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: 'strcpy' 선언을 참조하십시오.
+c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\선린.cpp(154): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1270): note: 'scanf' 선언을 참조하십시오.
+c:\users\sunset\desktop\sunrin\c-programming_taehee\consoleapplication1\선린.cpp(183): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1270): note: 'scanf' 선언을 참조하십시오.
+  ConsoleApplication1.vcxproj -> C:\Users\SunSet\Desktop\Sunrin\C-Programming_Taehee\Debug\Sunrin2017 Software.exe
+  ConsoleApplication1.vcxproj -> C:\Users\SunSet\Desktop\Sunrin\C-Programming_Taehee\Debug\Sunrin2017 Software.pdb (Full PDB)

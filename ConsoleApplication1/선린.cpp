@@ -135,7 +135,7 @@ void orderadd () {
 				break;
 			}
 		}
-		for (int i = 0; i < (sizeof(db) / sizeof(database)); i++) {
+		for (int i = 0; i < 60; i++) {
 			if (db[i].barcode == barcode && db[i].barcode != a->barcode) {
 				strcpy(New->name, db[i].name);
 				New->price = db[i].price;
