@@ -1,18 +1,20 @@
-﻿#include<stdio.h>
+#include<stdio.h>
 #include<Windows.h>
 #include<stdlib.h>
-#include"선린.h"
+#include"선린.h" // 밑에 있는 db라는 이름을 가진 구조체 배열을 사용하기위해 database라는 이름으로 구조체를 선언해 두었고, 헤더파일을 include시켰다.
 //총매출 기능 삽입
 // 오류수정:4.정산기능 오류씨@발람의거
-typedef struct LinkedList {
+typedef struct chicken { //node라는 별명을 가진 chicken구조체를 선언해 두었다.
 	char name[100];
 	int price;
 	int num;
 	int barcode;
-	struct LinkedList *NEXT;
+	struct LinkedList *Norder;
 }node;
 
-struct database db[60] = {
+Norder *first, *last; //단일 연결리스트의 기본이 되는 first변수와 last변수를 선언해 준다.
+
+struct database db[60] = { //바코드를 검색할 제품 60개를 준비했고, 일정한 규격을 가진 구조체 안에 데이터들을 넣어줬다.
 	{ "BBQ 황금 올리브치킨", 16000, 1234 },
 	{ "BBQ 황금 올리브치킨 (반반)",17000, 12345 },
 	{ "BBQ 황금 올리브치킨 (닭다리)", 17500, 12243 },
@@ -65,44 +67,43 @@ struct database db[60] = {
 	{ "BBQ 꼬꼬컵", 2500, 78912 },
 };
 
-node*head, *tail;
 
-void calculate() {
-	head = (node*)malloc(sizeof(node));
-	tail = (node*)malloc(sizeof(node));
-	head->NEXT = tail;
-	tail->NEXT = NULL;
+
+void calculate() {  // 마감을 할 경우 단일연결리스트의 머리와 꼬리가 되는 두개를 이어줌으로써 머리와 꼬리 사이에 있던 주문들이 날아가면서 프로그램 처음으로 넘어가는것과 같다.
+	first = (node*)malloc(sizeof(node));
+	last = (node*)malloc(sizeof(node));
+	first->Norder = last;
 }
 
-void noworder() {
-	system("cls");
-	int sum = 0;
-	node *p = head->NEXT;
-	if (p == tail) {
-		printf("계산된 물건이 없습니다.\n");
-		return;
-	}
-	while (p != tail) {
-		printf("%s\t  %d원\t  %d개\n", p->name, p->price, p->num);
-		sum += p->price*p->num;
-		p = p->NEXT;
-	}
-	printf("\n");
-	printf("총 합계 : %d원\n", sum);
+void noworder(){
+    system("cls"); // 바코드를 하나씩 입력할때마다 창에 현재까지 얼마나 찍었는지에 대한 리스트를 보여준다. (이것이 곧 단일연결리스트다)
+    int sum = 0;
+    node *p = head->NEXT;
+    if (p == tail) {
+        printf("계산된 물건이 없습니다.\n");
+        return;
+    }
+    while (p != tail) {
+        printf("%s\t  %d원\t  %d개\n", p->name, p->price, p->num);
+        sum += p->price*p->num;
+        p = p->NEXT;
+    }
+    printf("\n");
+    printf("총 합계 : %d원\n", sum);
 }
 
-void pay () {
+void pay () {  //손님이 계산을 하러 카운터로 왔을때 처리할 함수이다. 손님이 총 드신 음식값을 띄워주고 돈을 받아서 입력한금액이 총액보다 작을경우 외상금액을 출력해주고 입력한 값이 총액보다 클경우 거스름돈을 출력해준다.
 	system("cls");
 	int sum = 0;
 	int input;
-	node *p = head->NEXT;
-	if (p == tail) {
+	node *point = first->Norder;
+	if (point == last) {
 		printf("계산된 물건이 없습니다.\n");
 		system("pause");
 		return;
 	}
-	while (p != tail) {
-		printf("%s\t  %d원\t  %d개\n", p->name, p->price, p->num);
+	while (point != last) {
+		printf("%s\t  %d원\t  %d개\n", point->name, point->price, point->num);
 		sum += p->price*p->num;
 		p = p->NEXT;
 	}
@@ -121,7 +122,7 @@ void pay () {
 }
 
 
-void orderadd () {
+void orderadd () { // 단일연결리스트의 꽃이라고 할 수 있는 orderadd함수 이다. 말그대로 주문을 넣는 함수이고, 단일연결리스트의 first와 last사이에 주문이 하나씩 들어가게 된다.
 	system("cls");
 	while (1) {
 		int barcode;
@@ -135,7 +136,7 @@ void orderadd () {
 				break;
 			}
 		}
-		for (int i = 0; i < 60; i++) {
+		for (int i = 0; i < 60; i++) { //반복문을 통해서 db에서 값을 찾고 맞는값이 있다면 그 인덱스의 값을 모두 불러와서 노드라는 별명을 선언한 구조체에 옮겨담아 동적할당을 시킨다.
 			if (db[i].barcode == barcode && db[i].barcode != a->barcode) {
 				strcpy(New->name, db[i].name);
 				New->price = db[i].price;
@@ -146,14 +147,15 @@ void orderadd () {
 			}
 			else if (barcode == 0) return;
 		}
-		noworder ();
-	}
+        noworder();
+    }
 }
-void cancel () {
+
+void cancel () { // 주문을 하다가 취소가 되는 경우를 생각해 만든기능이다. 일정메뉴를 구매하려고 했다가 취소하는 경우를 여러번 봐왔기 때문에 이런기능을 넣게 되었다.
 	int barcode;
 	scanf("%d", &barcode);
-	node *p = head->NEXT;
-	node *o = head;
+	node *A = head->NEXT;
+	node *B = head;
 	while (p != tail) {
 		if (p->barcode == barcode && p->num == 1) {
 			node*s = p->NEXT;
@@ -169,13 +171,14 @@ void cancel () {
 		o = o->NEXT;
 	}
 }
+
 void main() {
 	int a = 0;
 	calculate();
 	while (1) {
 		system("cls");
 		int num;
-		printf("<<< === BBQ 판매매장 === >>>\n\n");
+		printf("*** - BBQ 판매매장 - ***\n\n");
 		printf("1. 주문 등록\n");
 		printf("2. 주문 삭제\n");
 		printf("3. 현재 주문 현황\n");
@@ -189,7 +192,7 @@ void main() {
 			system("pause");
 			break;
 		}
-		case 4: cancel();
+		case 4: pay();
 		}
 	}
 }
