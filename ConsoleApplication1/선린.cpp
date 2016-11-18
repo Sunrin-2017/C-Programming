@@ -2,8 +2,6 @@
 #include<Windows.h>
 #include<stdlib.h>
 #include"선린.h" // 밑에 있는 db라는 이름을 가진 구조체 배열을 사용하기위해 database라는 이름으로 구조체를 선언해 두었고, 헤더파일을 include시켰다.
-//총매출 기능 삽입
-// 오류수정:4.정산기능 오류씨@발람의거
 typedef struct chicken { //node라는 별명을 가진 chicken구조체를 선언해 두었다.
 	char name[100];
 	int price;
