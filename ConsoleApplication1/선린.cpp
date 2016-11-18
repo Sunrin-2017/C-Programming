@@ -7,7 +7,7 @@ typedef struct chicken { //node라는 별명을 가진 chicken구조체를 선�
 	int price;
 	int num;
 	int barcode;
-	struct LinkedList *Norder;
+	struct LinkedList *GO;
 }node;
 
 Norder *first, *last; //단일 연결리스트의 기본이 되는 first변수와 last변수를 선언해 준다.
@@ -70,21 +70,21 @@ struct database db[60] = { //바코드를 검색할 제품 60개를 준비했고
 void calculate() {  // 마감을 할 경우 단일연결리스트의 머리와 꼬리가 되는 두개를 이어줌으로써 머리와 꼬리 사이에 있던 주문들이 날아가면서 프로그램 처음으로 넘어가는것과 같다.
 	first = (node*)malloc(sizeof(node));
 	last = (node*)malloc(sizeof(node));
-	first->Norder = last;
+	first->GO = last;
 }
 
 void noworder(){
     system("cls"); // 바코드를 하나씩 입력할때마다 창에 현재까지 얼마나 찍었는지에 대한 리스트를 보여준다. (이것이 곧 단일연결리스트다)
     int sum = 0;
-    node *p = head->NEXT;
-    if (p == tail) {
+    node *p = first->GO;
+    if (p == last) {
         printf("계산된 물건이 없습니다.\n");
         return;
     }
-    while (p != tail) {
+    while (p != last) {
         printf("%s\t  %d원\t  %d개\n", p->name, p->price, p->num);
         sum += p->price*p->num;
-        p = p->NEXT;
+        p = p->GO;
     }
     printf("\n");
     printf("총 합계 : %d원\n", sum);
@@ -94,7 +94,7 @@ void pay () {  //손님이 계산을 하러 카운터로 왔을때 처리할 함
 	system("cls");
 	int sum = 0;
 	int input;
-	node *point = first->Norder;
+	node *point = first->GO;
 	if (point == last) {
 		printf("계산된 물건이 없습니다.\n");
 		system("pause");
@@ -125,10 +125,10 @@ void orderadd () { // 단일연결리스트의 꽃이라고 할 수 있는 order
 	while (1) {
 		int barcode;
 		node *New = (node*)malloc(sizeof(node));
-		node *a = head;
+		node *a = first;
 		scanf("%d", &barcode);
-		while (a->NEXT != tail) {
-			a = a->NEXT;
+		while (a->GO != last) {
+			a = a->GO;
 			if (a->barcode == barcode) {
 				a->num++;
 				break;
@@ -139,9 +139,9 @@ void orderadd () { // 단일연결리스트의 꽃이라고 할 수 있는 order
 				strcpy(New->name, db[i].name);
 				New->price = db[i].price;
 				New->barcode = db[i].barcode;
-				New->NEXT = tail;
+				New->GO = tail;
 				New->num = 1;
-				a->NEXT = New;
+				a->GO = New;
 			}
 			else if (barcode == 0) return;
 		}
@@ -152,21 +152,21 @@ void orderadd () { // 단일연결리스트의 꽃이라고 할 수 있는 order
 void cancel () { // 주문을 하다가 취소가 되는 경우를 생각해 만든기능이다. 일정메뉴를 구매하려고 했다가 취소하는 경우를 여러번 봐왔기 때문에 이런기능을 넣게 되었다.
 	int barcode;
 	scanf("%d", &barcode);
-	node *A = head->NEXT;
-	node *B = head;
-	while (p != tail) {
+	node *A = first->GO;
+	node *B = first;
+	while (p != last) {
 		if (p->barcode == barcode && p->num == 1) {
-			node*s = p->NEXT;
+			node*s = p->GO;
 			free(p);
-			o->NEXT = s;
+			o->GO = s;
 			break;
 		}
 		else if (p->barcode == barcode && p->num > 1) {
 			p->num--;
 			break;
 		}
-		p = p->NEXT;
-		o = o->NEXT;
+		p = p->GO;
+		o = o->GO;
 	}
 }
 
