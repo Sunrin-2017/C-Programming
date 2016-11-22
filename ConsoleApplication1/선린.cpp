@@ -10,7 +10,7 @@ typedef struct chicken { //node라는 별명을 가진 chicken구조체를 선�
 	struct LinkedList *GO;
 }node;
 
-Norder *first, *last; //단일 연결리스트의 기본이 되는 first변수와 last변수를 선언해 준다.
+node *first, *last; //단일 연결리스트의 기본이 되는 first변수와 last변수를 선언해 준다.
 
 struct database db[60] = { //바코드를 검색할 제품 60개를 준비했고, 일정한 규격을 가진 구조체 안에 데이터들을 넣어줬다.
 	{ "BBQ 황금 올리브치킨", 16000, 1234 },
@@ -102,8 +102,8 @@ void pay () {  //손님이 계산을 하러 카운터로 왔을때 처리할 함
 	}
 	while (point != last) {
 		printf("%s\t  %d원\t  %d개\n", point->name, point->price, point->num);
-		sum += p->price*p->num;
-		p = p->NEXT;
+		sum += point->price*p->num;
+		point = point->NEXT;
 	}
 	printf("\n");
 	printf("총 합계 : %d원\n", sum);
@@ -154,19 +154,19 @@ void cancel () { // 주문을 하다가 취소가 되는 경우를 생각해 만
 	scanf("%d", &barcode);
 	node *A = first->GO;
 	node *B = first;
-	while (p != last) {
-		if (p->barcode == barcode && p->num == 1) {
-			node*s = p->GO;
+	while (A != last) {
+		if (A->barcode == barcode && A->num == 1) {
+			node*s = A->GO;
 			free(p);
-			o->GO = s;
+			B->GO = s;
 			break;
 		}
-		else if (p->barcode == barcode && p->num > 1) {
-			p->num--;
+		else if (A->barcode == barcode && A->num > 1) {
+			A->num--;
 			break;
 		}
-		p = p->GO;
-		o = o->GO;
+		A = A->GO;
+		B = B->GO;
 	}
 }
 
