@@ -2,8 +2,7 @@
 #include<Windows.h>
 #include<stdlib.h>
 #include"선린.h"
-//총매출 기능 삽입
-// 오류수정:4.정산기능 오류씨@발람의거
+
 typedef struct LinkedList {
 	char name[100];
 	int price;
@@ -65,7 +64,7 @@ struct database db[60] = {
 	{ "BBQ 꼬꼬컵", 2500, 78912 },
 };
 
-node*head, *tail;
+node *head, *tail;
 
 void calculate() {
 	head = (node*)malloc(sizeof(node));
@@ -116,7 +115,7 @@ void pay () {
 	else if (sum < input) {
 		printf("거스름돈 : %d원\n", input - sum);
 	}
-	calculate();
+
 	system("pause");
 }
 
