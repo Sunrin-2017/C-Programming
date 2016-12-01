@@ -1,7 +1,6 @@
-#include<stdio.h>
-#include<Windows.h>
-#include<stdlib.h>
-#include"선린.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "선린.h"
 
 typedef struct LinkedList {
 	char name[100];
@@ -168,7 +167,7 @@ void cancel () {
 		o = o->NEXT;
 	}
 }
-void main() {
+int main() {
 	int a = 0;
 	calculate();
 	while (1) {
